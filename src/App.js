@@ -1,10 +1,10 @@
-import './App.css';
-import {Schedule} from "./features/Schedule/Schedule";
+import "./App.css";
+import { Schedule } from "./features/Schedule/Schedule";
 
 function App() {
   return (
     <div className="App">
-      <Schedule/>
+      <Schedule />
     </div>
   );
 }

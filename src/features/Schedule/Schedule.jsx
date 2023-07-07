@@ -15,22 +15,12 @@ import {
 export const Schedule = () => {
   return (
     <div className={styles.scheduleContainer}>
-      <div
-        className={`${ScheduleSettings.settingsBlock} ${styles.schoolNameAndColorBlock}`}
-      >
-        <Input
-          type="text"
-          placeholder={'Школа "Мамыр"'}
-          classNameValue={styles.schoolNameInput}
-        />
+      <div className={`${ScheduleSettings.settingsBlock} ${styles.schoolNameAndColorBlock}`}>
+        <Input type="text" placeholder={'Школа "Мамыр"'} classNameValue={styles.schoolNameInput} />
         <div>
           <label className={styles.colorPickerLabel}>
             Цвет группы:
-            <Input
-              classNameValue={styles.colorPickerInput}
-              type="color"
-              defaultValue="#ffffff"
-            />
+            <Input classNameValue={styles.colorPickerInput} type="color" defaultValue="#ffffff" />
           </label>
         </div>
       </div>
@@ -54,9 +44,7 @@ export const Schedule = () => {
           <Input type="date" classNameValue={styles.endData} />
         </div>
       </div>
-      <div
-        className={`${ScheduleSettings.settingsBlock} ${styles.daysOfWeekBlock}`}
-      >
+      <div className={`${ScheduleSettings.settingsBlock} ${styles.daysOfWeekBlock}`}>
         <Button classNameValue={styles.weekDayBtn}>ПН/СР/ПТ</Button>
         <Button classNameValue={styles.weekDayBtn}>ВТ/ЧТ</Button>
         {WEEK_DAYS.map((day) => (
@@ -85,9 +73,7 @@ export const Schedule = () => {
           <Input type="time" classNameValue={styles.endData} />
         </div>
       </div>
-      <div
-        className={`${ScheduleSettings.settingsBlock} ${styles.teacherAndClassroomBlock}`}
-      >
+      <div className={`${ScheduleSettings.settingsBlock} ${styles.teacherAndClassroomBlock}`}>
         <div className={styles.selectTeacher}>
           <Select options={teacherSelectionOptions} />
         </div>
@@ -97,8 +83,7 @@ export const Schedule = () => {
       </div>
       <div className={styles.warningBlock}>
         <p>
-          Выбор <strong>преподавателя</strong> и <strong>аудитории</strong> не
-          обязателен.
+          Выбор <strong>преподавателя</strong> и <strong>аудитории</strong> не обязателен.
         </p>
       </div>
       <hr />
