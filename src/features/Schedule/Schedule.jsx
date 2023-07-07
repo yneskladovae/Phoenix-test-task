@@ -1,20 +1,92 @@
 import React from "react";
 import styles from "./Schedule.module.css";
+import { Input } from "../../components/Input/Input";
+import { Select } from "../../components/Select/Select";
+import { Button } from "../../components/Button/Button";
 
+const timeSelectionOptions = [
+  {
+    label: "Астрономическиe",
+    value: "astronomical",
+  },
+  {
+    label: "Академическиe",
+    value: "academical",
+  },
+];
+
+export const breakSelectionOptions = [
+  {
+    label: "Без перерыва",
+    value: 0,
+  },
+  {
+    label: "5 мин",
+    value: 5,
+  },
+  {
+    label: "10 мин",
+    value: 10,
+  },
+  {
+    label: "20 мин",
+    value: 20,
+  },
+  {
+    label: "30 мин",
+    value: 30,
+  },
+];
+export const teacherSelectionOptions = [
+  {
+    label: "Выберите преподавателя на это время",
+    value: null,
+  },
+  {
+    label: "Ivanov",
+    value: "Ivanov",
+  },
+  {
+    label: "Petrov",
+    value: "Petrov",
+  },
+  {
+    label: "Sidarov",
+    value: "Sidarov",
+  },
+];
+export const classroomSelectionOptions = [
+  {
+    label: "Аудитория",
+    value: null,
+  },
+  {
+    label: "№1",
+    value: 1,
+  },
+  {
+    label: "№2",
+    value: 2,
+  },
+  {
+    label: "№3",
+    value: 3,
+  },
+];
 export const Schedule = () => {
   return (
     <div className={styles.scheduleContainer}>
       <div className={styles.schoolNameAndColorBlock}>
-        <input
+        <Input
           type="text"
           placeholder={'Школа "Мамыр"'}
-          className={styles.schoolNameInput}
+          classNameValue={styles.schoolNameInput}
         />
         <div>
           <label className={styles.colorPickerLabel}>
             Цвет группы:
-            <input
-              className={styles.colorPickerInput}
+            <Input
+              classNameValue={styles.colorPickerInput}
               type="color"
               defaultValue="#ffffff"
             />
@@ -23,81 +95,61 @@ export const Schedule = () => {
       </div>
       <div>
         <div>
-          <select>
-            <option value="astronomical">Астрономическиe</option>
-            <option value="academical">Академическиe</option>
-          </select>
+          <Select options={timeSelectionOptions} />
         </div>
         <div>
           <div className={styles.setValueBlock}>
-            <button className={styles.btnMinus}>-</button>
+            <Button classNameValue={styles.btnMinus}>-</Button>
             <div className={styles.valueScreen}>
               <div className={styles.value}>3</div>
               <div className={styles.valueDescription}>Всего часов</div>
             </div>
-            <button className={styles.btnPlus}>+</button>
+            <Button classNameValue={styles.btnPlus}>+</Button>
           </div>
         </div>
         <div>
-          <input type="date" className={styles.startData} />
+          <Input type="date" classNameValue={styles.startData} />
           <span className={styles.separator}>до</span>
-          <input type="date" className={styles.endData} />
+          <Input type="date" classNameValue={styles.endData} />
         </div>
       </div>
       <div className={styles.daysOfWeekBlock}>
-        <button className={styles.weekDayBtn}>ПН/СР/ПТ</button>
-        <button className={styles.weekDayBtn}>ВТ/ЧТ</button>
-        <button className={styles.weekDayBtn}>ПН</button>
-        <button className={styles.weekDayBtn}>ВТ</button>
-        <button className={styles.weekDayBtn}>СР</button>
-        <button className={styles.weekDayBtn}>ЧТ</button>
-        <button className={styles.weekDayBtn}>ПН</button>
-        <button className={styles.weekDayBtn}>СБ</button>
-        <button className={styles.weekDayBtn}>ВС</button>
+        <Button classNameValue={styles.weekDayBtn}>ПН/СР/ПТ</Button>
+        <Button classNameValue={styles.weekDayBtn}>ВТ/ЧТ</Button>
+        <Button classNameValue={styles.weekDayBtn}>ПН</Button>
+        <Button classNameValue={styles.weekDayBtn}>ВТ</Button>
+        <Button classNameValue={styles.weekDayBtn}>СР</Button>
+        <Button classNameValue={styles.weekDayBtn}>ЧТ</Button>
+        <Button classNameValue={styles.weekDayBtn}>ПН</Button>
+        <Button classNameValue={styles.weekDayBtn}>СБ</Button>
+        <Button classNameValue={styles.weekDayBtn}>ВС</Button>
       </div>
       <div>
         <div>
-          <select>
-            <option value="0">Без перерыва</option>
-            <option value="5">5 мин</option>
-            <option value="10">10 мин</option>
-            <option value="20">20 мин</option>
-            <option value="30">30 мин</option>
-          </select>
+          <Select options={breakSelectionOptions} />
         </div>
         <div>
           <div className={styles.setValueBlock}>
-            <button className={styles.btnMinus}>-</button>
+            <Button classNameValue={styles.btnMinus}>-</Button>
             <div className={styles.valueScreen}>
               <div className={styles.value}>3</div>
               <div className={styles.valueDescription}>Всего часов</div>
             </div>
-            <button className={styles.btnPlus}>+</button>
+            <Button classNameValue={styles.btnPlus}>+</Button>
           </div>
         </div>
         <div>
-          <input type="date" className={styles.startData} />
+          <Input type="date" classNameValue={styles.startData} />
           <span className={styles.separator}>до</span>
-          <input type="date" className={styles.endData} />
+          <Input type="date" classNameValue={styles.endData} />
         </div>
       </div>
-
       <div className={styles.teacherAndClassroomBlock}>
         <div className={styles.selectTeacher}>
-          <select>
-            <option value="">Выберите преподавателя на это время</option>
-            <option value="Ivanov">Ivanov</option>
-            <option value="Petrov">Petrov</option>
-            <option value="Sidarov">Sidarov</option>
-          </select>
+          <Select options={teacherSelectionOptions} />
         </div>
         <div className={styles.selectClassroom}>
-          <select>
-            <option value="">Аудитория</option>
-            <option value="1">№1</option>
-            <option value="2">№2</option>
-            <option value="3">№3</option>
-          </select>
+          <Select options={classroomSelectionOptions} />
         </div>
       </div>
       <div className={styles.warningBlock}>
@@ -108,8 +160,8 @@ export const Schedule = () => {
       </div>
       <hr />
       <div className={styles.submitBlock}>
-        <button className={styles.cancelBtn}>Отмена</button>
-        <button className={styles.addBtn}>Добавить расписание</button>
+        <Button classNameValue={styles.cancelBtn}>Отмена</Button>
+        <Button classNameValue={styles.addBtn}>Добавить расписание</Button>
       </div>
     </div>
   );
