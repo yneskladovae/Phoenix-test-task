@@ -1,0 +1,47 @@
+.select {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  padding-left: 10px;
+  border: 1px solid #bdbdbd;
+  appearance: none;
+  background-size: 15px;
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 7px) center;
+  background-image: url("../../assets/svg/arrowIcon.svg");
+}
+
+.selectContainer {
+  position: relative;
+  width: 100%;
+}
+
+.verticalLine {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 20px;
+  background-color: #bdbdbd;
+}
+
+@media (max-width: 520px) {
+  .verticalLine {
+    display: none !important;
+  }
+  .select {
+    background-image: none !important;
+  }
+}
+
+@media (max-width: 460px) {
+  .verticalLine {
+    display: block !important;
+  }
+  .select {
+    background-image: url("../../assets/svg/arrowIcon.svg") !important;
+  }
+}
