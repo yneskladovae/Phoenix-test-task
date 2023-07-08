@@ -22,8 +22,8 @@ export const Schedule = () => {
   const [typeTime, setTypeTime] = useState("astronomical");
   currentDate.setHours(typeTime === "academical" ? 7 : 8, typeTime === "academical" ? 45 : 0);
   const duration = typeTime === "academical" ? 45 : 60;
-  const [lessonEnd, setLessonEnd] = useState(currentDate);
-  const lessonStart = new Date("1970-01-01T07:00:00");
+  const [endLesson, setEndLesson] = useState(currentDate);
+  const startLesson = new Date("1970-01-01T07:00:00");
   const [hoursPerDay, setHoursPerDay] = useState(1);
   const [totalCourseTime, setTotalCourseTime] = useState(10);
   const [breakTime, setBreakTime] = useState(0);
@@ -31,8 +31,8 @@ export const Schedule = () => {
   const [startCourseDate, setStartCourseDate] = useState(getCurrentDate());
   const [endCourseDate, setEndCourseDate] = useState("");
 
-  const lessonStartFormatTime = formatTime(lessonStart);
-  const lessonEndFormatTime = formatTime(lessonEnd);
+  const lessonStartFormatTime = formatTime(startLesson);
+  const lessonEndFormatTime = formatTime(endLesson);
 
   const minTotalCourseTime = totalCourseTime <= 1; // 1 - минимальное количество часов в курсе обучения
   const minHoursPerDay = hoursPerDay <= 1; // 1 - минимальное количество часов в день
@@ -47,8 +47,8 @@ export const Schedule = () => {
     const currTypeTimeValue = e.currentTarget.value;
     setTypeTime(currTypeTimeValue);
     const timeToAdd = currTypeTimeValue === "astronomical" ? 15 : -15;
-    const newTime = new Date(lessonEnd.getTime() + timeToAdd * hoursPerDay * 60000);
-    setLessonEnd(newTime);
+    const newTime = new Date(endLesson.getTime() + timeToAdd * hoursPerDay * 60000);
+    setEndLesson(newTime);
   };
 
   const increaseTotalCourseTimeHandler = () => {
@@ -60,15 +60,15 @@ export const Schedule = () => {
   };
 
   const increaseHoursPerDayHandler = () => {
-    const updateTime = new Date(lessonEnd.getTime() + duration * 60000);
+    const updateTime = new Date(endLesson.getTime() + duration * 60000);
     setHoursPerDay((hoursPerDay) => hoursPerDay + 1);
-    setLessonEnd(updateTime);
+    setEndLesson(updateTime);
   };
 
   const decreaseHoursPerDayHandler = () => {
-    const updateTime = new Date(lessonEnd.getTime() - duration * 60000);
+    const updateTime = new Date(endLesson.getTime() - duration * 60000);
     setHoursPerDay((hoursPerDay) => hoursPerDay - 1);
-    setLessonEnd(updateTime);
+    setEndLesson(updateTime);
   };
 
   const changeDateCourseStart = (e) => {
@@ -79,9 +79,9 @@ export const Schedule = () => {
   const setBreakTimeChangeHandler = (e) => {
     const currBreakTime = +e.currentTarget.value;
     const breakToAdd = currBreakTime - breakTime;
-    const updateTime = new Date(lessonEnd.getTime() + breakToAdd * 60000);
+    const updateTime = new Date(endLesson.getTime() + breakToAdd * 60000);
     setBreakTime(currBreakTime);
-    setLessonEnd(updateTime);
+    setEndLesson(updateTime);
   };
   const selectDaysHandler = (day) => {
     if (dayOfLessons.includes(day)) {
@@ -90,7 +90,6 @@ export const Schedule = () => {
       setDayOfLessons([...dayOfLessons, day]);
     }
   };
-
   const setSelectedDaysHandler = (days) => {
     setDayOfLessons(days);
   };
@@ -99,7 +98,7 @@ export const Schedule = () => {
     <div className={styles.scheduleContainer}>
       <div className={`${ScheduleSettings.settingsBlock} ${styles.schoolNameAndColorBlock}`}>
         <Input type="text" placeholder={'Школа "Мамыр"'} classNameValue={styles.schoolNameInput} />
-        <div>
+        <div className={styles.colorPickerBlock}>
           <label className={styles.colorPickerLabel}>
             Цвет группы:
             <Input classNameValue={styles.colorPickerInput} type="color" defaultValue="#ffffff" />
@@ -133,13 +132,18 @@ export const Schedule = () => {
             type="date"
             onChange={changeDateCourseStart}
             value={startCourseDate}
-            classNameValue={styles.startData}
+            classNameValue={`${styles.startData} ${styles.startDateValue}`}
           />
           <span className={styles.separator}>до</span>
           {dayOfLessons.length ? (
-            <Input type="date" classNameValue={styles.endData} value={endCourseDate} readOnly />
+            <Input
+              type="date"
+              classNameValue={`${styles.endData} ${styles.endDateValue}`}
+              value={endCourseDate}
+              readOnly
+            />
           ) : (
-            <Input type="text" classNameValue={styles.endData} value={"Выберите день(ни)"} readOnly />
+            <Input type="text" classNameValue={styles.endDataError} value={"Выберите день!"} readOnly />
           )}
         </div>
       </div>

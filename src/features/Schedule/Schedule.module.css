@@ -10,9 +10,10 @@
 }
 
 .scheduleContainer .colorPickerInput {
+  width: 50px;
   cursor: pointer;
   padding: 3px 15px 3px 5px;
-  margin-left: 10px;
+  margin-left: 20px;
   border-radius: 0;
   border: 0;
 }
@@ -29,6 +30,7 @@
 
 .schoolNameAndColorBlock .schoolNameInput {
   max-width: 200px;
+  text-align: left;
 }
 
 .daysOfWeekBlock button {
@@ -43,30 +45,10 @@
   background-color: #fff;
 }
 
-.daysOfWeekBlock :last-child {
-  border-bottom-right-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.daysOfWeekBlock :first-child {
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
-}
-
 .btnPlus,
 .btnMinus {
   width: 60px;
   height: 40px;
-}
-
-.btnMinus {
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
-}
-
-.btnPlus {
-  border-bottom-right-radius: 5px;
-  border-top-right-radius: 5px;
 }
 
 .setValueBlock {
@@ -82,12 +64,10 @@
   text-align: center;
   height: 38px;
   background: #f0f4f7;
-  letter-spacing: 0px;
   line-height: 11px;
   display: flex;
   align-items: center;
   padding: 0px 15px 0px 15px;
-  justify-content: center;
 }
 
 .valueScreen {
@@ -95,7 +75,6 @@
   height: 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   border-bottom: 1px solid #bdbdbd;
   border-top: 1px solid #bdbdbd;
 }
@@ -123,10 +102,7 @@
   padding: 10px 10px;
 }
 
-.dataBlock :first-child {
-  width: 45%;
-}
-
+.dataBlock :first-child,
 .dataBlock :last-child {
   width: 45%;
 }
@@ -144,6 +120,18 @@
   background-color: #bdbdbd;
 }
 
+.daysOfWeekBlock :last-child,
+.btnPlus {
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.daysOfWeekBlock :first-child,
+.btnMinus {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
 .scheduleContainer .startData {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
@@ -152,6 +140,12 @@
 .scheduleContainer .endData {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+}
+
+.endDataError {
+  font-size: 12px;
+  padding: 0;
+  color: #fa8072;
 }
 
 .submitBlock {
@@ -163,6 +157,7 @@ hr {
   margin: 20px 0px;
   border-color: #e8e8e83d;
 }
+
 .scheduleContainer .cancelBtn {
   background-color: white;
   color: black;
@@ -188,7 +183,8 @@ hr {
 
 @media (max-width: 460px) {
   .daysOfWeekBlock button {
-    width: 33%;
+    width: 11%;
+    font-size: 12px;
   }
 
   .schoolNameAndColorBlock .schoolNameInput,
@@ -201,5 +197,23 @@ hr {
   .selectTeacher,
   .selectClassroom {
     width: 100%;
+  }
+}
+
+@media (max-width: 700px) and (min-width: 460px) {
+  .scheduleContainer .endDataError,
+  .scheduleContainer .startDateValue,
+  .scheduleContainer .endDateValue {
+    font-size: 10px;
+    padding: 0;
+  }
+}
+
+@media (max-width: 395px) {
+  .scheduleContainer .colorPickerInput {
+    margin-left: 5px;
+  }
+  .schoolNameAndColorBlock .schoolNameInput {
+    max-width: 120px;
   }
 }
