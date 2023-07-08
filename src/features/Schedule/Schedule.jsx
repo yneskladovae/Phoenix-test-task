@@ -136,7 +136,11 @@ export const Schedule = () => {
             classNameValue={styles.startData}
           />
           <span className={styles.separator}>до</span>
-          <Input type="date" value={endCourseDate} classNameValue={styles.endData} readOnly />
+          {dayOfLessons.length ? (
+            <Input type="date" classNameValue={styles.endData} value={endCourseDate} readOnly />
+          ) : (
+            <Input type="text" classNameValue={styles.endData} value={"Выберите день(ни)"} readOnly />
+          )}
         </div>
       </div>
       <div className={`${ScheduleSettings.settingsBlock} ${styles.daysOfWeekBlock}`}>
