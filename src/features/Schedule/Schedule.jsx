@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ScheduleSettings from "../../common/styles/ScheduleSettings.module.css";
 import styles from "./Schedule.module.css";
 import { Input } from "../../components/Input/Input";
@@ -11,8 +11,49 @@ import {
   timeSelectionOptions,
   WEEK_DAYS,
 } from "../../common/constants/constants";
+import { formatTime } from "../../common/utils/getFormatTime";
 
 export const Schedule = () => {
+  const currentDate = new Date();
+  const [typeTime, setTypeTime] = useState("astronomical");
+  currentDate.setHours(typeTime === "academical" ? 7 : 8, typeTime === "academical" ? 45 : 0);
+  const [lessonEnd, setLessonEnd] = useState(currentDate);
+  const lessonStart = new Date();
+  lessonStart.setHours(7, 0);
+  const duration = typeTime === "academical" ? 45 : 60;
+  const [hoursPerDay, setHoursPerDay] = useState(1);
+  const [totalCourseTime, setTotalCourseTime] = useState(10);
+  const lessonStartFormatTime = formatTime(lessonStart);
+  const lessonEndFormatTime = formatTime(lessonEnd);
+
+  const changeTypeTimeHandler = (e) => {
+    const currTypeTimeValue = e.currentTarget.value;
+    setTypeTime(currTypeTimeValue);
+    const timeToAdd = currTypeTimeValue === "astronomical" ? 15 : -15;
+    const newTime = new Date(lessonEnd.getTime() + timeToAdd * hoursPerDay * 60000);
+    setLessonEnd(newTime);
+  };
+
+  const increaseTotalCourseTimeHandler = () => {
+    setTotalCourseTime((totalCourseTime) => totalCourseTime + 1);
+  };
+
+  const decreaseTotalCourseTimeHandler = () => {
+    setTotalCourseTime((totalCourseTime) => totalCourseTime - 1);
+  };
+
+  const increaseHoursPerDayHandler = () => {
+    const updateTime = new Date(lessonEnd.getTime() + duration * 60000);
+    setHoursPerDay((hoursPerDay) => hoursPerDay + 1);
+    setLessonEnd(updateTime);
+  };
+
+  const decreaseHoursPerDayHandler = () => {
+    const updateTime = new Date(lessonEnd.getTime() - duration * 60000);
+    setHoursPerDay((hoursPerDay) => hoursPerDay - 1);
+    setLessonEnd(updateTime);
+  };
+
   return (
     <div className={styles.scheduleContainer}>
       <div className={`${ScheduleSettings.settingsBlock} ${styles.schoolNameAndColorBlock}`}>
@@ -26,16 +67,20 @@ export const Schedule = () => {
       </div>
       <div className={ScheduleSettings.settingsBlock}>
         <div className={ScheduleSettings.settingsBlockItem}>
-          <Select options={timeSelectionOptions} />
+          <Select options={timeSelectionOptions} onChange={changeTypeTimeHandler} defaultValue={typeTime} />
         </div>
         <div className={ScheduleSettings.settingsBlockItem}>
           <div className={styles.setValueBlock}>
-            <Button classNameValue={styles.btnMinus}>-</Button>
+            <Button onClick={decreaseTotalCourseTimeHandler} classNameValue={styles.btnMinus}>
+              -
+            </Button>
             <div className={styles.valueScreen}>
-              <div className={styles.value}>3</div>
+              <div className={styles.value}>{totalCourseTime}</div>
               <div className={styles.valueDescription}>Всего часов</div>
             </div>
-            <Button classNameValue={styles.btnPlus}>+</Button>
+            <Button onClick={increaseTotalCourseTimeHandler} classNameValue={styles.btnPlus}>
+              +
+            </Button>
           </div>
         </div>
         <div className={ScheduleSettings.settingsBlockItem}>
@@ -59,18 +104,22 @@ export const Schedule = () => {
         </div>
         <div className={ScheduleSettings.settingsBlockItem}>
           <div className={styles.setValueBlock}>
-            <Button classNameValue={styles.btnMinus}>-</Button>
+            <Button onClick={decreaseHoursPerDayHandler} classNameValue={styles.btnMinus}>
+              -
+            </Button>
             <div className={styles.valueScreen}>
-              <div className={styles.value}>1</div>
+              <div className={styles.value}>{hoursPerDay}</div>
               <div className={styles.valueDescription}>Часов в день</div>
             </div>
-            <Button classNameValue={styles.btnPlus}>+</Button>
+            <Button onClick={increaseHoursPerDayHandler} classNameValue={styles.btnPlus}>
+              +
+            </Button>
           </div>
         </div>
         <div className={ScheduleSettings.settingsBlockItem}>
-          <Input type="time" classNameValue={styles.startData} />
+          <Input type="time" value={lessonStartFormatTime} classNameValue={styles.startData} readOnly />
           <span className={styles.separator}>до</span>
-          <Input type="time" classNameValue={styles.endData} />
+          <Input type="time" value={lessonEndFormatTime} classNameValue={styles.endData} readOnly />
         </div>
       </div>
       <div className={`${ScheduleSettings.settingsBlock} ${styles.teacherAndClassroomBlock}`}>
