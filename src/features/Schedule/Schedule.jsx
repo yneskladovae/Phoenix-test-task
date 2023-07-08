@@ -30,6 +30,8 @@ export const Schedule = () => {
   const [dayOfLessons, setDayOfLessons] = useState(MON_WED_FRI);
   const [startCourseDate, setStartCourseDate] = useState(getCurrentDate());
   const [endCourseDate, setEndCourseDate] = useState("");
+  const [teacher, setTeacher] = useState(null);
+  const [classroom, setClassroom] = useState(null);
 
   const lessonStartFormatTime = formatTime(startLesson);
   const lessonEndFormatTime = formatTime(endLesson);
@@ -92,6 +94,31 @@ export const Schedule = () => {
   };
   const setSelectedDaysHandler = (days) => {
     setDayOfLessons(days);
+  };
+
+  const selectTeacherHandler = (e) => setTeacher(e.currentTarget.value);
+  const selectClassroomHandler = (e) => setClassroom(e.currentTarget.value);
+
+  const sendDataHandler = (e) => {
+    const sortedDays = dayOfLessons.sort((a, b) => {
+      const weekDays = WEEK_DAYS;
+      return weekDays.indexOf(a) - weekDays.indexOf(b);
+    });
+
+    const data = {
+      typeTime: typeTime,
+      totalCourseTime: totalCourseTime,
+      startCourseDate: startCourseDate,
+      endCourseDate: endCourseDate,
+      dayOfLessons: sortedDays,
+      breakTime: breakTime,
+      hoursPerDay: hoursPerDay,
+      startLesson: lessonStartFormatTime,
+      endLesson: lessonEndFormatTime,
+      teacher: teacher,
+      classroom: classroom,
+    };
+    console.log(data);
   };
 
   return (
@@ -190,10 +217,10 @@ export const Schedule = () => {
       </div>
       <div className={`${ScheduleSettings.settingsBlock} ${styles.teacherAndClassroomBlock}`}>
         <div className={styles.selectTeacher}>
-          <Select options={teacherSelectionOptions} />
+          <Select options={teacherSelectionOptions} onChange={selectTeacherHandler} />
         </div>
         <div className={styles.selectClassroom}>
-          <Select options={classroomSelectionOptions} />
+          <Select options={classroomSelectionOptions} onChange={selectClassroomHandler} />
         </div>
       </div>
       <div className={styles.warningBlock}>
@@ -204,7 +231,9 @@ export const Schedule = () => {
       <hr />
       <div className={styles.submitBlock}>
         <Button classNameValue={styles.cancelBtn}>Отмена</Button>
-        <Button classNameValue={styles.addBtn}>Добавить расписание</Button>
+        <Button classNameValue={styles.addBtn} onClick={sendDataHandler}>
+          Добавить расписание
+        </Button>
       </div>
     </div>
   );
