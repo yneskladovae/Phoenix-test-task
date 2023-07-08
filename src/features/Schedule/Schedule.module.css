@@ -177,6 +177,15 @@ hr {
   margin-left: 20px;
 }
 
+.scheduleContainer .selectedDay {
+  background-color: rgb(30, 143, 255);
+  color: white;
+}
+
+.scheduleContainer .selectedDay :hover {
+  background-color: #2b63ce;
+}
+
 @media (max-width: 460px) {
   .daysOfWeekBlock button {
     width: 33%;

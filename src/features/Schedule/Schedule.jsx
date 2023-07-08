@@ -7,11 +7,14 @@ import { Button } from "../../components/Button/Button";
 import {
   breakSelectionOptions,
   classroomSelectionOptions,
+  MON_WED_FRI,
   teacherSelectionOptions,
   timeSelectionOptions,
+  TUE_THU,
   WEEK_DAYS,
 } from "../../common/constants/constants";
 import { formatTime } from "../../common/utils/getFormatTime";
+import { getCurrentDate } from "../../common/utils/getCurrentDate";
 
 export const Schedule = () => {
   const currentDate = new Date();
@@ -23,6 +26,10 @@ export const Schedule = () => {
   const duration = typeTime === "academical" ? 45 : 60;
   const [hoursPerDay, setHoursPerDay] = useState(1);
   const [totalCourseTime, setTotalCourseTime] = useState(10);
+  const [breakTime, setBreakTime] = useState(0);
+  const [dayOfLessons, setDayOfLessons] = useState(MON_WED_FRI);
+  const [startCourseDate, setStartCourseDate] = useState(getCurrentDate());
+  const [endCourseDate, setEndCourseDate] = useState("");
   const lessonStartFormatTime = formatTime(lessonStart);
   const lessonEndFormatTime = formatTime(lessonEnd);
 
@@ -52,6 +59,30 @@ export const Schedule = () => {
     const updateTime = new Date(lessonEnd.getTime() - duration * 60000);
     setHoursPerDay((hoursPerDay) => hoursPerDay - 1);
     setLessonEnd(updateTime);
+  };
+
+  const changeDateCourseStart = (e) => {
+    const newDate = e.currentTarget.value;
+    setStartCourseDate(newDate);
+  };
+
+  const setBreakTimeChangeHandler = (e) => {
+    const currBreakTime = +e.currentTarget.value;
+    const breakToAdd = currBreakTime - breakTime;
+    const updateTime = new Date(lessonEnd.getTime() + breakToAdd * 60000);
+    setBreakTime(currBreakTime);
+    setLessonEnd(updateTime);
+  };
+  const selectDaysHandler = (day) => {
+    if (dayOfLessons.includes(day)) {
+      setDayOfLessons(dayOfLessons.filter((d) => d !== day));
+    } else {
+      setDayOfLessons([...dayOfLessons, day]);
+    }
+  };
+
+  const setSelectedDaysHandler = (days) => {
+    setDayOfLessons(days);
   };
 
   return (
@@ -84,23 +115,36 @@ export const Schedule = () => {
           </div>
         </div>
         <div className={ScheduleSettings.settingsBlockItem}>
-          <Input type="date" classNameValue={styles.startData} />
+          <Input
+            type="date"
+            onChange={changeDateCourseStart}
+            value={startCourseDate}
+            classNameValue={styles.startData}
+          />
           <span className={styles.separator}>до</span>
-          <Input type="date" classNameValue={styles.endData} />
+          <Input type="date" classNameValue={styles.endData} readOnly />
         </div>
       </div>
       <div className={`${ScheduleSettings.settingsBlock} ${styles.daysOfWeekBlock}`}>
-        <Button classNameValue={styles.weekDayBtn}>ПН/СР/ПТ</Button>
-        <Button classNameValue={styles.weekDayBtn}>ВТ/ЧТ</Button>
+        <Button classNameValue={styles.weekDayBtn} onClick={() => setSelectedDaysHandler(MON_WED_FRI)}>
+          ПН/СР/ПТ
+        </Button>
+        <Button classNameValue={styles.weekDayBtn} onClick={() => setSelectedDaysHandler(TUE_THU)}>
+          ВТ/ЧТ
+        </Button>
         {WEEK_DAYS.map((day) => (
-          <Button key={day} classNameValue={styles.weekDayBtn}>
+          <Button
+            onClick={() => selectDaysHandler(day)}
+            key={day}
+            classNameValue={`${styles.weekDayBtn} ${dayOfLessons.indexOf(day) !== -1 ? styles.selectedDay : ""}`}
+          >
             {day}
           </Button>
         ))}
       </div>
       <div className={ScheduleSettings.settingsBlock}>
         <div className={ScheduleSettings.settingsBlockItem}>
-          <Select options={breakSelectionOptions} />
+          <Select onChange={setBreakTimeChangeHandler} options={breakSelectionOptions} />{" "}
         </div>
         <div className={ScheduleSettings.settingsBlockItem}>
           <div className={styles.setValueBlock}>

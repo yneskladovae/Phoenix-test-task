@@ -1,10 +1,6 @@
 import React from "react";
 import styles from "./Input.module.css";
-export const Input = ({ value, defaultValue, type, onChange, placeholder, classNameValue, style }) => {
-  const handleInputChange = (e) => {
-    onChange(e.target.value);
-  };
-
+export const Input = ({ value, defaultValue, type, onChange, placeholder, classNameValue, style, readOnly }) => {
   return (
     <input
       className={`${styles.input} ${classNameValue}`}
@@ -12,8 +8,9 @@ export const Input = ({ value, defaultValue, type, onChange, placeholder, classN
       type={type}
       value={value}
       defaultValue={defaultValue}
-      onChange={handleInputChange}
+      onChange={onChange}
       style={style}
+      readOnly={readOnly}
     />
   );
 };
