@@ -21,18 +21,22 @@ export const Schedule = () => {
   const currentDate = new Date();
   const [typeTime, setTypeTime] = useState("astronomical");
   currentDate.setHours(typeTime === "academical" ? 7 : 8, typeTime === "academical" ? 45 : 0);
-  const [lessonEnd, setLessonEnd] = useState(currentDate);
-  const lessonStart = new Date();
-  lessonStart.setHours(7, 0);
   const duration = typeTime === "academical" ? 45 : 60;
+  const [lessonEnd, setLessonEnd] = useState(currentDate);
+  const lessonStart = new Date("1970-01-01T07:00:00");
   const [hoursPerDay, setHoursPerDay] = useState(1);
   const [totalCourseTime, setTotalCourseTime] = useState(10);
   const [breakTime, setBreakTime] = useState(0);
   const [dayOfLessons, setDayOfLessons] = useState(MON_WED_FRI);
   const [startCourseDate, setStartCourseDate] = useState(getCurrentDate());
   const [endCourseDate, setEndCourseDate] = useState("");
+
   const lessonStartFormatTime = formatTime(lessonStart);
   const lessonEndFormatTime = formatTime(lessonEnd);
+
+  const minTotalCourseTime = totalCourseTime <= 1; // 1 - минимальное количество часов в курсе обучения
+  const minHoursPerDay = hoursPerDay <= 1; // 1 - минимальное количество часов в день
+  const maxHoursPerDay = hoursPerDay >= 10 || totalCourseTime <= hoursPerDay; // 10 - максимальное количество часов в день, можно поставить нужное значение
 
   useEffect(() => {
     const endDate = calculateEndCourseDate(startCourseDate, totalCourseTime, hoursPerDay, dayOfLessons);
@@ -108,7 +112,11 @@ export const Schedule = () => {
         </div>
         <div className={ScheduleSettings.settingsBlockItem}>
           <div className={styles.setValueBlock}>
-            <Button onClick={decreaseTotalCourseTimeHandler} classNameValue={styles.btnMinus}>
+            <Button
+              onClick={decreaseTotalCourseTimeHandler}
+              classNameValue={styles.btnMinus}
+              disabled={minTotalCourseTime}
+            >
               -
             </Button>
             <div className={styles.valueScreen}>
@@ -154,14 +162,14 @@ export const Schedule = () => {
         </div>
         <div className={ScheduleSettings.settingsBlockItem}>
           <div className={styles.setValueBlock}>
-            <Button onClick={decreaseHoursPerDayHandler} classNameValue={styles.btnMinus}>
+            <Button onClick={decreaseHoursPerDayHandler} classNameValue={styles.btnMinus} disabled={minHoursPerDay}>
               -
             </Button>
             <div className={styles.valueScreen}>
               <div className={styles.value}>{hoursPerDay}</div>
               <div className={styles.valueDescription}>Часов в день</div>
             </div>
-            <Button onClick={increaseHoursPerDayHandler} classNameValue={styles.btnPlus}>
+            <Button onClick={increaseHoursPerDayHandler} classNameValue={styles.btnPlus} disabled={maxHoursPerDay}>
               +
             </Button>
           </div>
