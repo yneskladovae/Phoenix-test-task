@@ -1,4 +1,4 @@
-export const calculateEndCourseDate = (startCourseDate, totalCourseTime, hoursPerDay, dayOfLessons) => {
+export const calculateEndCourseDate = (startCourseDate, totalCourseTime, hoursPerDay, daysOfLessons) => {
   const startDate = new Date(startCourseDate);
   const endDate = new Date(startDate);
   const days = ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"];
@@ -6,15 +6,17 @@ export const calculateEndCourseDate = (startCourseDate, totalCourseTime, hoursPe
   let lessonCount = 0;
 
   while (lessonCount < daysForClasses) {
-    if (dayOfLessons.length === 0) return;
+    if (daysOfLessons.length === 0) return;
 
-    endDate.setDate(endDate.getDate() + 1);
     const currentDay = days[endDate.getDay()];
 
-    if (dayOfLessons.includes(currentDay)) {
+    if (daysOfLessons.includes(currentDay)) {
       lessonCount++;
     }
+
+    endDate.setDate(endDate.getDate() + 1);
   }
 
+  endDate.setDate(endDate.getDate() - 1);
   return endDate.toLocaleDateString("en-CA");
 };

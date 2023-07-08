@@ -27,7 +27,7 @@ export const Schedule = () => {
   const [hoursPerDay, setHoursPerDay] = useState(1);
   const [totalCourseTime, setTotalCourseTime] = useState(10);
   const [breakTime, setBreakTime] = useState(0);
-  const [dayOfLessons, setDayOfLessons] = useState(MON_WED_FRI);
+  const [daysOfLessons, setDaysOfLessons] = useState(MON_WED_FRI);
   const [startCourseDate, setStartCourseDate] = useState(getCurrentDate());
   const [endCourseDate, setEndCourseDate] = useState("");
   const [teacher, setTeacher] = useState(null);
@@ -41,9 +41,9 @@ export const Schedule = () => {
   const maxHoursPerDay = hoursPerDay >= 10 || totalCourseTime <= hoursPerDay; // 10 - максимальное количество часов в день, можно поставить нужное значение
 
   useEffect(() => {
-    const endDate = calculateEndCourseDate(startCourseDate, totalCourseTime, hoursPerDay, dayOfLessons);
+    const endDate = calculateEndCourseDate(startCourseDate, totalCourseTime, hoursPerDay, daysOfLessons);
     setEndCourseDate(endDate);
-  }, [startCourseDate, totalCourseTime, hoursPerDay, dayOfLessons]);
+  }, [startCourseDate, totalCourseTime, hoursPerDay, daysOfLessons]);
 
   const changeTypeTimeHandler = (e) => {
     const currTypeTimeValue = e.currentTarget.value;
@@ -86,21 +86,21 @@ export const Schedule = () => {
     setEndLesson(updateTime);
   };
   const selectDaysHandler = (day) => {
-    if (dayOfLessons.includes(day)) {
-      setDayOfLessons(dayOfLessons.filter((d) => d !== day));
+    if (daysOfLessons.includes(day)) {
+      setDaysOfLessons(daysOfLessons.filter((d) => d !== day));
     } else {
-      setDayOfLessons([...dayOfLessons, day]);
+      setDaysOfLessons([...daysOfLessons, day]);
     }
   };
   const setSelectedDaysHandler = (days) => {
-    setDayOfLessons(days);
+    setDaysOfLessons(days);
   };
 
   const selectTeacherHandler = (e) => setTeacher(e.currentTarget.value);
   const selectClassroomHandler = (e) => setClassroom(e.currentTarget.value);
 
   const sendDataHandler = (e) => {
-    const sortedDays = dayOfLessons.sort((a, b) => {
+    const sortedDays = daysOfLessons.sort((a, b) => {
       const weekDays = WEEK_DAYS;
       return weekDays.indexOf(a) - weekDays.indexOf(b);
     });
@@ -160,7 +160,7 @@ export const Schedule = () => {
             classNameValue={`${styles.startData} ${styles.startDateValue}`}
           />
           <span className={styles.separator}>до</span>
-          {dayOfLessons.length ? (
+          {daysOfLessons.length ? (
             <Input
               type="date"
               classNameValue={`${styles.endData} ${styles.endDateValue}`}
@@ -183,7 +183,7 @@ export const Schedule = () => {
           <Button
             onClick={() => selectDaysHandler(day)}
             key={day}
-            classNameValue={`${styles.weekDayBtn} ${dayOfLessons.indexOf(day) !== -1 ? styles.selectedDay : ""}`}
+            classNameValue={`${styles.weekDayBtn} ${daysOfLessons.indexOf(day) !== -1 ? styles.selectedDay : ""}`}
           >
             {day}
           </Button>
