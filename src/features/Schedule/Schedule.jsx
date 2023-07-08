@@ -125,12 +125,10 @@ export const Schedule = () => {
     <div className={styles.scheduleContainer}>
       <div className={`${ScheduleSettings.settingsBlock} ${styles.schoolNameAndColorBlock}`}>
         <Input type="text" placeholder={'Школа "Мамыр"'} classNameValue={styles.schoolNameInput} />
-        <div className={styles.colorPickerBlock}>
-          <label className={styles.colorPickerLabel}>
-            Цвет группы:
-            <Input classNameValue={styles.colorPickerInput} type="color" defaultValue="#ffffff" />
-          </label>
-        </div>
+        <label className={styles.colorPickerLabel}>
+          Цвет группы:
+          <Input classNameValue={styles.colorPickerInput} type="color" defaultValue="#ffffff" />
+        </label>
       </div>
       <div className={ScheduleSettings.settingsBlock}>
         <div className={ScheduleSettings.settingsBlockItem}>
